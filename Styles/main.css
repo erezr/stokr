@@ -1,0 +1,90 @@
+html {
+  box-sizing: border-box;
+  font-size: 100%;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+a{
+  text-decoration: none;
+}
+
+ul{
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+body{
+  background-color: #f0f4f7;
+}
+
+.rectangle-1 {
+  width: 1300px;
+  height: 819px;
+  background-color: #ffffff;
+  margin: 6% auto;
+  padding: 3%;
+}
+
+header{
+  height: 128px;
+  position: relative;
+}
+
+header h1{
+  display: inline-block;
+  font-family: LucidaGrande;
+  font-size: 39px;
+  font-weight: bold;
+  text-align: left;
+  color: #41bf15;
+  position: absolute;
+  left: 0px;
+  text-transform: uppercase;
+}
+
+.nav-menu{
+  position: absolute;
+  right: 0px;
+  display: inline-flex;
+  justify-content: space-between;
+  width: 20%;
+}
+
+.stock{
+  position: relative;
+  height: 119px;
+}
+
+.stock-full-name{
+  position: absolute;
+  left: 0px;
+}
+
+.stock-details{
+  position: absolute;
+  right: 0px;
+  display: flex;
+  justify-content: space-around;
+  width: 29%;
+}
+
+.last-trade-price-only{
+  font-family: HelveticaNeueW01-55Roman;
+  font-size: 30px;
+  text-align: left;
+  color: #59737c;
+}
+
+.change{
+  width: 150px;
+  height: 56px;
+  border-radius: 10px;
+  background-color: #ff4f46;
+}
+
+
+
