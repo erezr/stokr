@@ -7,6 +7,15 @@ html {
   box-sizing: inherit;
 }
 
+@font-face {
+  font-family: "HelveticaNeueW01-55Roman";
+  src: url("../assets/fonts/HelveticaNeueW01-55Roman.eot?#iefix");
+  src: url("../assets/fonts/HelveticaNeueW01-55Roman.eot?#iefix") format("eot"),
+  url("../assets/fonts/HelveticaNeueW01-55Roman.woff") format("woff"),
+  url("../assets/fonts/HelveticaNeueW01-55Roman.ttf") format("truetype"),
+  url("../assets/fonts/HelveticaNeueW01-55Roman.svg#helvetica_neue") format("svg");
+}
+
 a{
   text-decoration: none;
 }
@@ -23,15 +32,16 @@ body{
 
 .rectangle-1 {
   width: 1300px;
-  height: 819px;
   background-color: #ffffff;
   margin: 6% auto;
-  padding: 3%;
+  display: flex;
+  flex-direction: column;
 }
 
 header{
   height: 128px;
-  position: relative;
+  display: flex;
+  justify-content: space-around;
 }
 
 header h1{
@@ -41,35 +51,48 @@ header h1{
   font-weight: bold;
   text-align: left;
   color: #41bf15;
-  position: absolute;
   left: 0px;
   text-transform: uppercase;
+  flex-basis: 70%;
+  align-self: center;
 }
 
 .nav-menu{
-  position: absolute;
   right: 0px;
   display: inline-flex;
   justify-content: space-between;
   width: 20%;
 }
 
+.nav-menu button{
+  align-self: center;
+  font-size: 30px;
+  border: none;
+  background: none;
+  color: #ababab;
+}
+
 .stock{
-  position: relative;
+  display: inline-flex;
+  justify-content: space-around;
   height: 119px;
+  width: 100%;
+  border-top: 1px solid #ababab;
 }
 
 .stock-full-name{
-  position: absolute;
-  left: 0px;
+  flex-basis: 60%;
+  align-self: center;
+  font-size: 30px;
+  color: #59737c;
 }
 
 .stock-details{
-  position: absolute;
   right: 0px;
   display: flex;
   justify-content: space-around;
   width: 29%;
+  align-self: center;
 }
 
 .last-trade-price-only{
@@ -77,13 +100,42 @@ header h1{
   font-size: 30px;
   text-align: left;
   color: #59737c;
+  align-self: center;
+}
+
+.move-stock-buttons{
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.icon-arrow{
+  border: none;
+  background: none;
+  color: #ababab;
+  font-size: 25px;
+}
+
+.moveDown{
+  transform: rotate(180deg);
 }
 
 .change{
   width: 150px;
   height: 56px;
   border-radius: 10px;
+  align-self: center;
+  border: none;
+  color: white;
+  font-size: 30px;
+}
+
+.lose{
   background-color: #ff4f46;
+}
+
+.gain{
+  background-color: #63da39;
 }
 
 
