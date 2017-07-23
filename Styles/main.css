@@ -36,6 +36,7 @@ body{
   margin: 6% auto;
   display: flex;
   flex-direction: column;
+  border-radius: 10pxgit ;
 }
 
 header{
