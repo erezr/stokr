@@ -1,0 +1,65 @@
+.stock{
+  display: inline-flex;
+  justify-content: space-around;
+  height: 119px;
+  width: 100%;
+  border-top: 1px solid #e5e5e5;
+}
+
+.stock-full-name{
+  flex-basis: 60%;
+  align-self: center;
+  font-size: 30px;
+  color: #59737c;
+}
+
+.stock-details{
+  right: 0px;
+  display: flex;
+  justify-content: space-around;
+  width: 29%;
+  align-self: center;
+}
+
+.last-trade-price-only{
+  font-family: HelveticaNeueW01-55Roman;
+  font-size: 30px;
+  text-align: left;
+  color: #59737c;
+  align-self: center;
+}
+
+.move-stock-buttons{
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.icon-arrow{
+  border: none;
+  background: none;
+  color: #ababab;
+  font-size: 25px;
+}
+
+.moveDown{
+  transform: rotate(180deg);
+}
+
+.change{
+  width: 150px;
+  height: 56px;
+  border-radius: 10px;
+  align-self: center;
+  border: none;
+  color: white;
+  font-size: 30px;
+}
+
+.lose{
+  background-color: #ff4f46;
+}
+
+.gain{
+  background-color: #63da39;
+}

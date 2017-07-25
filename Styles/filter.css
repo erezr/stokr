@@ -1,0 +1,52 @@
+.filter-panel{
+  display: flex;
+  flex-direction: column;
+  height:162px;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-around;
+  /*padding: 10px 20px;*/
+  border-top: 1px solid #e5e5e5;
+}
+
+/*.filter-by-range-container{*/
+  /*display: flex;*/
+  /*flex-direction: column;*/
+  /*justify-content: space-between;*/
+  /*height: 100%;*/
+/*}*/
+
+.apply-filter{
+  width: 120px;
+  height: 111px;
+  background-color: #41bf15;
+  border: solid 1px #247906;
+  border-radius: 100%;
+  color: white;
+}
+
+.filter-panel label,
+.filter-panel input,
+.filter-panel select{
+  /*height: 50%;*/
+  font-family: HelveticaNeueW01-55Roman;
+  font-size: 26px;
+  color: #59737c;
+}
+
+.filter-panel input,
+.filter-panel select{
+  height: 55px;
+  width: 270px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  border: solid 1px #e0e0e0;
+}
+
+.filter-category-container{
+  display: flex;
+  justify-content: space-between;
+  /*margin-left: 10px;*/
+  align-items: center;
+  width: 480px;
+}

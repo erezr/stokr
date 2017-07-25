@@ -1,0 +1,34 @@
+
+header{
+  height: 128px;
+  display: flex;
+  justify-content: space-around;
+}
+
+header h1{
+  display: inline-block;
+  font-family: LucidaGrande;
+  font-size: 39px;
+  font-weight: bold;
+  text-align: left;
+  color: #41bf15;
+  left: 0px;
+  text-transform: uppercase;
+  flex-basis: 70%;
+  align-self: center;
+}
+
+.nav-menu{
+  right: 0px;
+  display: inline-flex;
+  justify-content: space-between;
+  width: 20%;
+}
+
+.nav-menu button{
+  align-self: center;
+  font-size: 30px;
+  border: none;
+  background: none;
+  color: #ababab;
+}
