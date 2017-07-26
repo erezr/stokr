@@ -38,7 +38,7 @@
         `;
     }
 
-    window.addEventListener('hashchange', window.stokr.controler.hashchangeHandler);
+    window.addEventListener('hashchange', window.stokr.controler.hashChangeHandler);
   }
 
   function renderStocksList(changeStocksViewMode) {
@@ -69,7 +69,6 @@
   }
 
   function generateStockRow(stock, index, state){
-
     // const changeValue = state.changeState ? stock.realtime_chg_percent : roundTo2DigitsAfterDot(stock.Change);
     let changeValue = null;
     if(state.changeEnum[state.changeState] === "percent"){

@@ -18,35 +18,14 @@
   // xhr.open('GET',url);
   // xhr.send();
 
-  const state = {
+  let state = {
     userStocks: [
       "WIX",
       "MSFT",
-      "GOOG"
+      "GOOG",
     ],
+
     stocks: [],
-    //   {
-    //     "Symbol": "WIX",
-    //     "Name": "Wix.com Ltd.",
-    //     "Change": "0.750000",
-    //     "PercentChange": "+1.51%",
-    //     "LastTradePriceOnly": "76.099998"
-    //   },
-    //   {
-    //     "Symbol": "MSFT",
-    //     "Name": "Microsoft Corporation",
-    //     "PercentChange": "-2.09%",
-    //     "Change": "-0.850006",
-    //     "LastTradePriceOnly": "69.620003"
-    //   },
-    //   {
-    //     "Symbol": "YHOO",
-    //     "Name": "Yahoo! Inc.",
-    //     "Change": "0.279999",
-    //     "PercentChange": "+1.11%",
-    //     "LastTradePriceOnly": "50.599998"
-    //   }
-    // ],
 
     filter: {
       byName:'',
@@ -66,7 +45,6 @@
     showHeader: true,
     showFilter: false,
     showReorderButtons: true,
-    showSearch: false,
     showSettings: false
   };
 
@@ -108,10 +86,30 @@
     }
   }
 
+  function setChangeState(changeState){
+   state.changeState = changeState;
+  }
+
+  function setStocksList(stocksList){
+   state.stocks = stocksList;
+  }
+
+  function changeFilter(){
+    state.showFilter = !state.showFilter;
+  }
+
+  function setState(newState){
+    state = newState;
+  }
+
   window.stokr.model = {
     getState,
     getChangeState,
-    getStocksList
+    getStocksList,
+    setState,
+    setChangeState,
+    setStocksList,
+    changeFilter
     // stocksListClicked
   }
 

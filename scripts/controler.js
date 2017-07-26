@@ -7,6 +7,9 @@
 
   window.stokr = window.stokr || {};
 
+
+  //TODO : order function as public and private
+
   function getState() {
     return window.stokr.model.getState();
   }
@@ -24,7 +27,14 @@
   }
 
   function fetchDataFromServer() {
-    const state = window.stokr.model.getState();
+    let state = null;
+    const stateFromStorage = localStorage.getItem("state");
+    if(stateFromStorage !== null){
+      state = JSON.parse(stateFromStorage);
+      window.stokr.model.setState(state);
+    } else {
+      state = window.stokr.model.getState();
+    }
     const userStocks = state.userStocks.toString();
     const url = "http://localhost:7000/quotes?q=" + userStocks;
 
@@ -32,9 +42,9 @@
       return response.json();
     }).then(function(resAsJsonObj){
       if(resAsJsonObj.query.count === 1) {
-        state.stocks = [resAsJsonObj.query.results.quote];
+        window.stokr.model.setStocksList([resAsJsonObj.query.results.quote]);
       }else{
-        state.stocks = resAsJsonObj.query.results.quote;
+        window.stokr.model.setStocksList(resAsJsonObj.query.results.quote);
       }
     });
   }
@@ -45,22 +55,30 @@
   }
 
   function switchChangeState(state) {
-    // state.changeState = !state.changeState;
-    state.changeState = ++state.changeState%3;
-    console.log(state.changeState);
+    window.stokr.model.setChangeState(++state.changeState%3);
+    updateLocalStorage();
   }
 
   function toggleFilter(){
-    let state = window.stokr.model.getState();
-    state.showFilter = !state.showFilter;
+    window.stokr.model.changeFilter();
+    updateLocalStorage();
     renderView();
   }
 
   function swap(index1,index2,array){
-    if(index1 >=0 && index1 < array.length && index2 >=0 && index2 < array.length) {
-      const temp = array.splice(index1,1)[0];
-      array.splice(index2,0,temp);
+    let arrayToChange = array.slice();
+    if(index1 >=0 && index1 < arrayToChange.length && index2 >=0 && index2 < arrayToChange.length) {
+      const temp = arrayToChange.splice(index1,1)[0];
+      arrayToChange.splice(index2,0,temp);
     }
+
+    window.stokr.model.setStocksList(arrayToChange);
+    updateLocalStorage();
+  }
+
+  function updateLocalStorage() {
+    const state = window.stokr.getState()
+    localStorage.setItem("state",JSON.stringify(state));
   }
 
   function stocksListClicked(buttonType,clickedIndex){
@@ -76,10 +94,11 @@
       }
     }
 
+    updateLocalStorage(state);
     renderView();
   }
 
-  function hashchangeHandler(){
+  function hashChangeHandler(){
     renderView();
   }
 
@@ -88,9 +107,9 @@
     getState,
     getChangeState,
     getStocksList,
-    hashchangeHandler,
+    hashChangeHandler,
     toggleFilter
   }
 
 
-}())
+}());
