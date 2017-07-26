@@ -7,6 +7,10 @@
 
   window.stokr = window.stokr || {};
 
+  function getState() {
+    return window.stokr.model.getState();
+  }
+
   function getChangeState() {
     return window.stokr.model.getChangeState();
   }
@@ -15,18 +19,41 @@
     return window.stokr.model.getStocksList();
   }
 
-  function renderStockList() {
-    return window.stokr.view.renderStockList();
+  function renderView() {
+    return window.stokr.view.render(stocksListClicked);
+  }
+
+  function fetchDataFromServer() {
+    const state = window.stokr.model.getState();
+    const userStocks = state.userStocks.toString();
+    const url = "http://localhost:7000/quotes?q=" + userStocks;
+
+    return fetch(url).then(function(response){
+      return response.json();
+    }).then(function(resAsJsonObj){
+      if(resAsJsonObj.query.count === 1) {
+        state.stocks = [resAsJsonObj.query.results.quote];
+      }else{
+        state.stocks = resAsJsonObj.query.results.quote;
+      }
+    });
   }
 
   function init() {
-    window.stokr.view.renderFirstStockList(stocksListClicked);
+    fetchDataFromServer()
+      .then(renderView);
   }
 
-
-
   function switchChangeState(state) {
-    state.changeState = !state.changeState;
+    // state.changeState = !state.changeState;
+    state.changeState = ++state.changeState%3;
+    console.log(state.changeState);
+  }
+
+  function toggleFilter(){
+    let state = window.stokr.model.getState();
+    state.showFilter = !state.showFilter;
+    renderView();
   }
 
   function swap(index1,index2,array){
@@ -35,7 +62,6 @@
       array.splice(index2,0,temp);
     }
   }
-
 
   function stocksListClicked(buttonType,clickedIndex){
     const stocks = window.stokr.model.getStocksList();
@@ -50,15 +76,20 @@
       }
     }
 
-    renderStockList();
+    renderView();
   }
 
+  function hashchangeHandler(){
+    renderView();
+  }
 
   window.stokr.controler = {
     init,
+    getState,
     getChangeState,
-    getStocksList
-    // renderStockList
+    getStocksList,
+    hashchangeHandler,
+    toggleFilter
   }
 
 

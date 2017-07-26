@@ -25,7 +25,9 @@ header h1{
   width: 20%;
 }
 
-.nav-menu button{
+.nav-menu button,
+.nav-menu a
+{
   align-self: center;
   font-size: 30px;
   border: none;
