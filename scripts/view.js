@@ -23,6 +23,7 @@
   }
 
   function render(changeStocksViewMode){
+
     const url = window.location.hash.slice(1);
 
     if(url === '' || url ==='#'){
@@ -47,8 +48,7 @@
 
     if(state.showFilter) {
       mainElm.innerHTML = generateFilterPanel();
-      const filterElm = mainElm.querySelector("#filter-panel");
-      filterElm.addEventListener("submit",formHandlerSubmit);
+      // const filterElm = mainElm.querySelector("#filter-panel");
     }else{
       mainElm.innerHTML = ``;
     }
@@ -65,17 +65,23 @@
     ulElm.innerHTML = generateStocks(stocks,state);
     ulElm.addEventListener('click', stocksListButtonClicked.bind(null, changeStocksViewMode));
 
+    const filterButton = mainElm.querySelector("#filter-panel");
+    if (filterButton) {
+      filterButton.addEventListener("submit", formHandlerSubmit);
+    }
+
     return mainElm;
   }
 
   function generateStockRow(stock, index, state){
     // const changeValue = state.changeState ? stock.realtime_chg_percent : roundTo2DigitsAfterDot(stock.Change);
     let changeValue = null;
-    if(state.changeEnum[state.changeState] === "percent"){
+    const changeEnum = window.stokr.controler.getChangeEnum();
+    if(changeEnum[state.changeState] === "percent"){
       changeValue = roundTo2DigitsAfterDot(stock.realtime_chg_percent)+"%";
-    }else if(state.changeEnum[state.changeState] === "change"){
+    }else if(changeEnum[state.changeState] === "change"){
       changeValue = roundTo2DigitsAfterDot(stock.Change);
-    }else if(state.changeEnum[state.changeState] === "marketChange"){
+    }else if(changeEnum[state.changeState] === "marketChange"){
       changeValue = roundTo2DigitsAfterDot(stock.MarketCapitalization.split("B")[0])+"B";
     }
 
@@ -106,12 +112,12 @@
       <form class="filter-panel" id="filter-panel">
         <span class="filter-category-container">
           <label for="search-by-name">By Name</label>
-          <input type="search" id="search-by-name"/>
+          <input type="search" id="search-by-name" name="name"/>
         </span>
 
         <span class="filter-category-container">
           <label for="search-by-gain">By Gain</label>
-          <select id="search-by-gain">
+          <select id="search-by-gain" name="gain">
             <option value="all">All</option>
             <option value="gain">Gain</option>
             <option value="lose">Lose</option>
@@ -121,15 +127,15 @@
         <!--<div class="filter-by-range-container">-->
           <span class="filter-category-container">
             <label for="search-by-name-range-from">By Range: From</label>
-            <input type="number" id="search-by-name-range-from"/>
+            <input type="number" id="search-by-name-range-from" name="rangeFrom"/>
           </span>
           <span class="filter-category-container">
             <label for="search-by-name-range-to">By Range: To</label>
-            <input type="number" id="search-by-name-range-to"/>
+            <input type="number" id="search-by-name-range-to" name="rangeTo"/>
           </span>
         <!--</div>-->
 
-        <button class="apply-filter">Apply</button>
+        <button class="apply-filter" id="apply-filter" type="submit">Apply</button>
       </form>
     `;
 
@@ -161,9 +167,17 @@
 
   function formHandlerSubmit(event){
     event.preventDefault();
-    // TODO: save all data from the form in attributes and and logic in the
-    // existed rendering to consider filtering values
-    // Save values in the state
+    const formElm = event.target;
+    const formData = new FormData(formElm);
+    const filterData = {
+      byName: formData.get('name'),
+      byGain: formData.get('gain'),
+      byRangeFrom: formData.get('rangeFrom'),
+      byRangeTo: formData.get('rangeTo')
+    };
+
+    window.stokr.controler.setFilter(filterData);
+    window.stokr.controler.renderView();
   }
 
   window.stokr.view = {

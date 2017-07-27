@@ -33,7 +33,7 @@
       state = JSON.parse(stateFromStorage);
       window.stokr.model.setState(state);
     } else {
-      state = window.stokr.model.getState();
+      state = getState();
     }
     const userStocks = state.userStocks.toString();
     const url = "http://localhost:7000/quotes?q=" + userStocks;
@@ -52,6 +52,11 @@
   function init() {
     fetchDataFromServer()
       .then(renderView);
+  }
+
+  function updateLocalStorage() {
+    const state = getState();
+    localStorage.setItem("state",JSON.stringify(state));
   }
 
   function switchChangeState(state) {
@@ -76,14 +81,9 @@
     updateLocalStorage();
   }
 
-  function updateLocalStorage() {
-    const state = window.stokr.getState()
-    localStorage.setItem("state",JSON.stringify(state));
-  }
-
   function stocksListClicked(buttonType,clickedIndex){
-    const stocks = window.stokr.model.getStocksList();
-    let state = window.stokr.model.getState();
+    const stocks = getStocksList();
+    let state = getState();
     if(buttonType === "changeState") {
       switchChangeState(state);
     }else {
@@ -102,13 +102,25 @@
     renderView();
   }
 
+  function setFilter(filterData){
+    window.stokr.model.setFilter(filterData);
+    updateLocalStorage();
+  }
+
+  function getChangeEnum(){
+    return window.stokr.model.getChangeEnum();
+  }
+
   window.stokr.controler = {
     init,
     getState,
     getChangeState,
     getStocksList,
     hashChangeHandler,
-    toggleFilter
+    toggleFilter,
+    renderView,
+    setFilter,
+    getChangeEnum
   }
 
 

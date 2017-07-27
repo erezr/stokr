@@ -7,16 +7,13 @@
 
   window.stokr = window.stokr || {};
 
-  // const xhr = new XMLHttpRequest();
-  // xhr.addEventListener('load',function (event) {
-  //   state.stocks = JSON.parse(event);
-  // })
-  // // xhr.onload = function (event) {
-  // //   state.stocks = JSON.parse(event);
-  // // };
-  // const url = "../mocks/stocks.json";
-  // xhr.open('GET',url);
-  // xhr.send();
+  const changeEnum = {
+    0: "percent",
+    1: "change",
+    2: "marketChange"
+  };
+
+  let stocks = [];
 
   let state = {
     userStocks: [
@@ -25,22 +22,13 @@
       "GOOG",
     ],
 
-    stocks: [],
-
-    filter: {
+    filterValues: {
       byName:'',
       byGain:'',
       byRangeFrom:'',
       byRangeTo:''
     },
 
-    changeEnum: {
-      0: "percent",
-      1: "change",
-      2: "marketChange"
-    },
-
-    // TODO: put those attributes in objects
     changeState: 0,
     showHeader: true,
     showFilter: false,
@@ -48,11 +36,20 @@
     showSettings: false
   };
 
-  // const changeValues = ["change","precent"]
 
+  function setFilter(filterData){
+    state.filterValues.byName = filterData.byName;
+    state.filterValues.byGain = filterData.byGain;
+    state.filterValues.byRangeFrom = filterData.byRangeFrom;
+    state.filterValues.byRangeTo = filterData.byRangeTo;
+  }
 
   function getState() {
     return state;
+  }
+
+  function getChangeEnum(){
+    return changeEnum;
   }
 
   function getChangeState() {
@@ -60,29 +57,30 @@
   }
 
   function getStocksList() {
+
+    console.log('state',state);
     if(!state.showFilter ||
-      (state.filter.byName === '' &&
-      state.filter.byGain === 'All' &&
-      state.filter.byRangeFrom === '' &&
-      state.filter.byRangeTo === '' )) {
-      return state.stocks;
+      (state.filterValues.byName === '' &&
+      state.filterValues.byGain === '' &&
+      state.filterValues.byRangeFrom === '' &&
+      state.filterValues.byRangeTo === '' )) {
+      return stocks;
     }
     else{
-      // return state.stocks.filter(stock => {
-      //   if(state.filter.byName !== '' && !(stock.Symbol.contains(state.filter.byName) || stock.Name.contains(state.filter.byName))) {
-      //     return false;
-      //   }else if(state.filter.byGain === 'Gain' && parseFloat(stock.Change) < 0 ||
-      //           state.filter.byGain === 'Lose' && parseFloat(stock.Change) > 0) {
-      //         return false;
-      //   }else if(state.filter.byRangeFrom !== '' && parseFloat(stock.Change) < 0 ||
-      //     state.filter.byGain === 'Lose' && parseFloat(stock.Change) > 0) {
-      //     return false;
-      //   }else if(state.filter.byGain === 'Gain' && parseFloat(stock.Change) < 0 ||
-      //     state.filter.byGain === 'Lose' && parseFloat(stock.Change) > 0) {
-      //     return false;
-      //   }
-      //
-      // })
+      return stocks.filter(stock => {
+        if(state.filterValues.byName !== '' && !(stock.Symbol.toLowerCase().includes(state.filterValues.byName) || stock.Name.toLowerCase().includes(state.filterValues.byName))) {
+          return false;
+        }else if(state.filterValues.byGain === 'gain' && parseFloat(stock.Change) < 0 ||
+                 state.filterValues.byGain === 'lose' && parseFloat(stock.Change) > 0) {
+          return false;
+        }else if(state.filterValues.byRangeFrom !== '' && parseFloat(stock.realtime_chg_percent) < state.filterValues.byRangeFrom){
+          return false;
+        }else if(state.filterValues.byRangeTo !== '' && parseFloat(stock.realtime_chg_percent) > state.filterValues.byRangeTo){
+          return false;
+        }
+
+        return true;
+      })
     }
   }
 
@@ -91,7 +89,7 @@
   }
 
   function setStocksList(stocksList){
-   state.stocks = stocksList;
+   stocks = stocksList;
   }
 
   function changeFilter(){
@@ -109,7 +107,9 @@
     setState,
     setChangeState,
     setStocksList,
-    changeFilter
+    changeFilter,
+    setFilter,
+    getChangeEnum
     // stocksListClicked
   }
 
